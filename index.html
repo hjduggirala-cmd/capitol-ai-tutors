@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capitol AI Tutors — AI, explained to humans</title>
+<meta name="description" content="Hands-on, one-on-one AI tutoring for real people in the DC area. Bring an ugh problem. Leave with a superpower.">
+<meta property="og:title" content="Capitol AI Tutors">
+<meta property="og:description" content="AI, explained to humans. Personalized 1:1 tutoring built around your real life and real work.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://capitolaitutors.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --champagne:#F1E8D6;
+    --champagne-deep:#E7DAC0;
+    --parchment:#FAF4E6;
+    --brass:#A97B2F;
+    --brass-bright:#C9962F;
+    --brass-pale:#D9BE85;
+    --copper:#9C5B2B;
+    --petrol:#1C4441;
+    --petrol-deep:#132F2D;
+    --verdigris:#4E8078;
+    --ink:#241E14;
+    --ink-soft:#5C5240;
+    --glow:#E8B54B;
+    --display:'Cinzel', 'Times New Roman', serif;
+    --body:'Jost', -apple-system, sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    background:var(--champagne);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,150,47,.10), transparent),
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(169,123,47,.015) 3px, rgba(169,123,47,.015) 4px);
+    color:var(--ink);
+    line-height:1.65;
+    font-size:17.5px;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- ornaments ---------- */
+  .rule{
+    display:flex;align-items:center;gap:14px;
+    color:var(--brass);
+    margin:0 auto;
+  }
+  .rule::before,.rule::after{
+    content:'';flex:1;height:1px;
+    background:linear-gradient(90deg, transparent, var(--brass));
+  }
+  .rule::after{background:linear-gradient(90deg, var(--brass), transparent);}
+  .rule svg{flex:none;}
+
+  .plaque{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--mono);
+    font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--copper);
+    border:1px solid var(--brass-pale);
+    border-radius:2px;
+    padding:7px 18px;
+    background:linear-gradient(180deg, rgba(255,255,255,.55), rgba(217,190,133,.18));
+    box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 1px 2px rgba(90,60,10,.12);
+    position:relative;
+  }
+  .plaque::before,.plaque::after{
+    content:'';width:4px;height:4px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #E8CF9A, var(--brass));
+    box-shadow:0 0 0 1px rgba(120,85,25,.35);
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(241,232,214,.93);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--brass-pale);
+    box-shadow:0 1px 0 rgba(255,255,255,.6) inset;
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 24px;max-width:1100px;margin:0 auto;
+  }
+  .wordmark{
+    font-family:var(--display);
+    font-weight:600;font-size:1.05rem;
+    letter-spacing:.08em;
+    text-decoration:none;
+    display:flex;align-items:center;gap:11px;
+  }
+  .wordmark .gear{animation:spin 40s linear infinite;transform-origin:center;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .wordmark b{color:var(--copper);font-weight:600;}
+
+  .btn{
+    display:inline-block;
+    font-family:var(--body);
+    font-weight:500;font-size:.92rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    text-decoration:none;
+    padding:13px 28px;
+    color:var(--parchment);
+    background:linear-gradient(180deg, #275650, var(--petrol) 45%, var(--petrol-deep));
+    border:1px solid var(--petrol-deep);
+    border-radius:2px;
+    box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 3px 10px -3px rgba(19,47,45,.5);
+    position:relative;
+    transition:transform .15s, box-shadow .2s;
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 6px 16px -4px rgba(19,47,45,.55);}
+  .btn:focus-visible{outline:3px solid var(--brass-bright);outline-offset:2px;}
+  .btn-brass{
+    color:#2E2007;
+    background:linear-gradient(180deg, #EBCE8B, var(--brass-bright) 50%, var(--brass));
+    border:1px solid #8A6420;
+    box-shadow:0 1px 0 rgba(255,255,255,.55) inset, 0 3px 10px -3px rgba(138,100,32,.6);
+  }
+  .btn-ghost{
+    color:var(--petrol);
+    background:transparent;
+    border:1px solid var(--brass);
+    box-shadow:none;
+  }
+  .btn-ghost:hover{background:rgba(169,123,47,.08);}
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    padding:92px 0 84px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-frame{
+    max-width:880px;margin:0 auto;
+    border:1px solid var(--brass-pale);
+    outline:1px solid var(--brass-pale);
+    outline-offset:5px;
+    padding:64px 40px 56px;
+    position:relative;
+    background:linear-gradient(180deg, rgba(250,244,230,.7), rgba(250,244,230,.25));
+  }
+  .corner{
+    position:absolute;width:22px;height:22px;
+    border-color:var(--brass);border-style:solid;border-width:0;
+  }
+  .corner.tl{top:-6px;left:-6px;border-top-width:2px;border-left-width:2px;}
+  .corner.tr{top:-6px;right:-6px;border-top-width:2px;border-right-width:2px;}
+  .corner.bl{bottom:-6px;left:-6px;border-bottom-width:2px;border-left-width:2px;}
+  .corner.br{bottom:-6px;right:-6px;border-bottom-width:2px;border-right-width:2px;}
+
+  h1{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:clamp(2.2rem, 5.6vw, 3.9rem);
+    line-height:1.14;
+    letter-spacing:.015em;
+    margin:26px 0 8px;
+  }
+  h1 .gold{
+    color:var(--copper);
+    background:linear-gradient(180deg, #D9A83C, #8F5F1D);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .hero-sub{
+    margin:26px auto 0;
+    font-size:1.12rem;
+    font-weight:300;
+    color:var(--ink-soft);
+    max-width:56ch;
+  }
+  .hero-ctas{margin-top:38px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+  .hero-note{
+    font-family:var(--mono);
+    font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--brass);
+    margin-top:26px;
+  }
+
+  /* ---------- Ugh section ---------- */
+  .ugh{
+    background:
+      radial-gradient(ellipse 70% 90% at 50% 0%, rgba(78,128,120,.25), transparent),
+      linear-gradient(180deg, var(--petrol), var(--petrol-deep));
+    color:var(--champagne);
+    padding:80px 0 88px;
+    border-top:3px double var(--brass);
+    border-bottom:3px double var(--brass);
+    text-align:center;
+  }
+  .ugh h2{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:clamp(1.6rem, 3.6vw, 2.5rem);
+    letter-spacing:.02em;
+    max-width:30ch;margin:22px auto 0;
+  }
+  .ugh h2 .gold{color:var(--glow);}
+  .ugh p.lede{margin:18px auto 0;color:#BFD2CB;font-weight:300;max-width:60ch;}
+  .plaque.on-dark{
+    color:var(--glow);
+    border-color:rgba(232,181,75,.45);
+    background:linear-gradient(180deg, rgba(232,181,75,.12), rgba(232,181,75,.03));
+    box-shadow:none;
+  }
+  .chips{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:820px;margin-left:auto;margin-right:auto;}
+  .chip{
+    font-family:var(--mono);
+    font-size:.83rem;
+    padding:9px 20px;
+    color:var(--champagne);
+    border:1px solid rgba(217,190,133,.4);
+    border-radius:2px;
+    background:rgba(255,255,255,.03);
+    position:relative;
+  }
+  .chip::before,.chip::after{
+    content:'';position:absolute;top:50%;transform:translateY(-50%);
+    width:3px;height:3px;border-radius:50%;
+    background:var(--brass-pale);opacity:.7;
+  }
+  .chip::before{left:7px;}
+  .chip::after{right:7px;}
+  .chip.gold{border-color:var(--glow);color:var(--glow);}
+
+  /* ---------- Demo (signature: pressure gauge) ---------- */
+  .demo{padding:96px 0;}
+  .demo-head{max-width:64ch;margin:0 auto 48px;text-align:center;}
+  h2.section{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:clamp(1.7rem, 3.8vw, 2.5rem);
+    letter-spacing:.02em;
+    line-height:1.22;
+    margin-top:22px;
+  }
+  .section-sub{margin:16px auto 0;color:var(--ink-soft);font-weight:300;max-width:58ch;}
+
+  .demo-card{
+    max-width:940px;margin:0 auto;
+    background:var(--parchment);
+    border:1px solid var(--brass-pale);
+    outline:1px solid var(--brass-pale);
+    outline-offset:4px;
+    box-shadow:0 30px 70px -35px rgba(90,60,10,.45);
+    position:relative;
+  }
+  .demo-grid{display:grid;grid-template-columns:280px 1fr;}
+  .gauge-side{
+    background:linear-gradient(180deg, var(--champagne-deep), #DCCBA4);
+    border-right:1px solid var(--brass-pale);
+    padding:34px 24px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  }
+  .gauge-label{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--copper);text-align:center;
+  }
+  #needle{
+    transform-origin:110px 112px;
+    transform:rotate(-62deg);
+    transition:transform 1s cubic-bezier(.34,1.4,.4,1);
+  }
+  .demo-content{padding:36px 40px 40px;}
+  .demo-toggle{
+    display:flex;gap:0;margin-bottom:30px;
+    border:1px solid var(--brass-pale);
+    border-radius:2px;
+    overflow:hidden;
+    background:var(--champagne);
+  }
+  .demo-toggle button{
+    flex:1;
+    font-family:var(--body);
+    font-weight:500;
+    font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;
+    padding:14px 10px;
+    background:transparent;
+    border:none;cursor:pointer;
+    color:var(--ink-soft);
+    transition:background .25s,color .25s;
+  }
+  .demo-toggle button.active{
+    background:linear-gradient(180deg, #275650, var(--petrol));
+    color:var(--champagne);
+  }
+  .demo-toggle button:focus-visible{outline:3px solid var(--brass-bright);outline-offset:-3px;}
+  .demo-body{display:none;}
+  .demo-body.show{display:block;animation:fadeUp .4s ease;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .prompt-label{
+    font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.24em;text-transform:uppercase;
+    color:var(--brass);margin-bottom:10px;
+  }
+  .prompt-box{
+    font-family:var(--mono);
+    font-size:.93rem;
+    background:var(--champagne);
+    border:1px solid var(--brass-pale);
+    border-left:3px solid var(--brass);
+    padding:18px 22px;
+    line-height:1.65;
+  }
+  .result{
+    margin-top:22px;
+    padding:2px 0 2px 20px;
+    border-left:1px solid var(--brass-pale);
+    color:var(--ink-soft);
+    font-weight:300;
+    font-size:.98rem;
+  }
+  .demo-body.after .prompt-box{border-left-color:var(--glow);background:#FBF1D9;}
+  .demo-body.after .result{color:var(--ink);}
+  .verdict{
+    margin-top:18px;
+    font-family:var(--mono);
+    font-size:.8rem;letter-spacing:.06em;
+  }
+  .verdict.meh{color:var(--copper);}
+  .verdict.yay{color:var(--petrol);font-weight:500;}
+  .demo-footnote{margin:26px auto 0;font-weight:300;color:var(--ink-soft);max-width:62ch;text-align:center;}
+
+  /* ---------- Sessions ---------- */
+  .sessions{
+    padding:92px 0 100px;
+    background:
+      linear-gradient(180deg, rgba(169,123,47,.06), transparent 30%),
+      var(--champagne-deep);
+    border-top:1px solid var(--brass-pale);
+    text-align:center;
+  }
+  .steps{
+    margin:48px auto 0;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+    max-width:1000px;
+    border:1px solid var(--brass-pale);
+    outline:1px solid var(--brass-pale);
+    outline-offset:4px;
+    background:var(--parchment);
+  }
+  .step{
+    padding:38px 30px 40px;
+    text-align:left;
+    position:relative;
+  }
+  .step + .step{border-left:1px solid var(--brass-pale);}
+  .step-dial{
+    width:52px;height:52px;border-radius:50%;
+    border:1px solid var(--brass);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-weight:600;font-size:1.25rem;
+    color:var(--copper);
+    background:radial-gradient(circle at 32% 30%, #FDF6E4, var(--champagne-deep));
+    box-shadow:0 1px 0 rgba(255,255,255,.8) inset, 0 2px 6px rgba(90,60,10,.2);
+    margin-bottom:18px;
+  }
+  .step h3{
+    font-family:var(--display);font-weight:600;
+    font-size:1.12rem;letter-spacing:.03em;
+    margin-bottom:10px;
+  }
+  .step p{font-size:.96rem;font-weight:300;color:var(--ink-soft);}
+  .session-meta{
+    margin-top:34px;
+    display:flex;gap:34px;flex-wrap:wrap;justify-content:center;
+    font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;color:var(--ink-soft);
+  }
+  .session-meta b{color:var(--copper);font-weight:500;}
+
+  /* ---------- Pricing ---------- */
+  .pricing{padding:96px 0;text-align:center;}
+  .price-grid{
+    margin:48px auto 0;
+    display:grid;
+    grid-template-columns:1fr 1.15fr;
+    gap:28px;
+    max-width:860px;
+    align-items:stretch;
+  }
+  .price-card{
+    background:var(--parchment);
+    border:1px solid var(--brass-pale);
+    outline:1px solid var(--brass-pale);
+    outline-offset:4px;
+    padding:40px 32px 36px;
+    position:relative;
+    text-align:center;
+  }
+  .price-card h3{
+    font-family:var(--display);
+    font-weight:600;font-size:1.05rem;
+    letter-spacing:.06em;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .price-tag{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(2.6rem, 5vw, 3.6rem);
+    letter-spacing:.01em;
+    line-height:1.1;
+    margin:16px 0 4px;
+    color:var(--petrol);
+  }
+  .price-strike{
+    font-family:var(--display);
+    font-size:1.3rem;
+    color:var(--ink-soft);
+    text-decoration:line-through;
+    text-decoration-color:var(--copper);
+    margin-right:10px;
+    font-weight:400;
+  }
+  .price-desc{font-size:.92rem;font-weight:300;color:var(--ink-soft);margin-top:10px;}
+  .price-card.founding{
+    background:linear-gradient(180deg, #FBF1D9, var(--parchment) 60%);
+    border-color:var(--brass);
+    outline-color:var(--brass);
+    box-shadow:0 24px 55px -30px rgba(138,100,32,.5);
+  }
+  .price-card.founding .price-tag{
+    background:linear-gradient(180deg, #D9A83C, #8F5F1D);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .ribbon{
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    font-family:var(--mono);
+    font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--parchment);
+    background:linear-gradient(180deg, #275650, var(--petrol));
+    border:1px solid var(--petrol-deep);
+    padding:6px 16px;
+    white-space:nowrap;
+  }
+  .price-card .btn{margin-top:22px;}
+  .price-meta{
+    margin-top:38px;
+    display:flex;gap:34px;flex-wrap:wrap;justify-content:center;
+    font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;color:var(--ink-soft);
+  }
+  .price-meta b{color:var(--copper);font-weight:500;}
+  .corporate{
+    margin:34px auto 0;
+    max-width:640px;
+    border:1px solid var(--brass-pale);
+    background:linear-gradient(180deg, rgba(255,255,255,.5), rgba(217,190,133,.14));
+    padding:16px 26px;
+    font-size:.95rem;
+    font-weight:300;
+  }
+  .corporate a{color:var(--copper);font-weight:500;}
+  .ethics-notice{
+    margin:44px auto 0;
+    max-width:720px;
+    border:1px solid var(--brass-pale);
+    outline:1px solid var(--brass-pale);
+    outline-offset:4px;
+    background:var(--parchment);
+    padding:30px 34px 28px;
+    text-align:center;
+    position:relative;
+  }
+  .ethics-notice .plaque{margin-bottom:14px;}
+  .ethics-notice p{
+    font-size:.98rem;
+    font-weight:300;
+    color:var(--ink-soft);
+    max-width:56ch;
+    margin:0 auto;
+  }
+  .ethics-notice p strong{color:var(--ink);font-weight:500;}
+  @media (max-width:880px){
+    .price-grid{grid-template-columns:1fr;max-width:440px;}
+  }
+
+  /* ---------- About ---------- */
+  .about{padding:100px 0;}
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1.45fr;
+    gap:60px;
+    align-items:center;
+    max-width:1000px;margin:0 auto;
+  }
+  .about-photo{
+    border:1px solid var(--brass-pale);
+    outline:1px solid var(--brass-pale);
+    outline-offset:5px;
+    overflow:hidden;
+    background:linear-gradient(180deg, var(--petrol), var(--petrol-deep));
+    aspect-ratio:4/5;
+    position:relative;
+  }
+  .about-photo img{width:100%;height:100%;object-fit:cover;position:relative;z-index:2;}
+  .photo-fallback{
+    position:absolute;inset:0;z-index:1;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--glow);
+    font-family:var(--display);font-size:1.2rem;line-height:1.6;
+    padding:30px;text-align:center;
+  }
+  .about-text .plaque{margin-bottom:20px;}
+  .about-text h2{text-align:left;margin-top:0;}
+  .about-text p{margin-bottom:18px;color:var(--ink-soft);font-weight:300;font-size:1.05rem;}
+  .about-text p:first-of-type{color:var(--ink);font-weight:400;}
+  .signoff{
+    font-family:var(--display);
+    font-size:1.15rem;
+    letter-spacing:.04em;
+    color:var(--copper);
+    margin-top:8px;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta-band{
+    background:
+      radial-gradient(ellipse 60% 100% at 50% 100%, rgba(232,181,75,.16), transparent),
+      linear-gradient(180deg, var(--petrol-deep), var(--petrol));
+    color:var(--champagne);
+    padding:96px 0;
+    text-align:center;
+    border-top:3px double var(--brass);
+  }
+  .cta-band h2{
+    font-family:var(--display);font-weight:500;
+    font-size:clamp(1.9rem, 4.6vw, 3rem);
+    letter-spacing:.02em;
+    margin-top:24px;
+  }
+  .cta-band h2 .gold{color:var(--glow);}
+  .cta-band p{margin:18px auto 36px;max-width:48ch;color:#BFD2CB;font-weight:300;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:46px 0 58px;
+    font-size:.9rem;
+    font-weight:300;
+    color:var(--ink-soft);
+    border-top:1px solid var(--brass-pale);
+  }
+  .foot-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;}
+  .foot-mark{font-family:var(--display);font-weight:600;letter-spacing:.06em;color:var(--ink);}
+  footer a{color:var(--copper);font-weight:400;}
+  .ethics{
+    margin-top:24px;
+    padding-top:22px;
+    border-top:1px solid var(--champagne-deep);
+    font-size:.82rem;
+    max-width:74ch;
+  }
+
+  @media (max-width:880px){
+    header.hero{padding:56px 0;}
+    .hero-frame{padding:44px 22px 40px;}
+    .demo-grid{grid-template-columns:1fr;}
+    .gauge-side{border-right:none;border-bottom:1px solid var(--brass-pale);padding:28px;}
+    .steps{grid-template-columns:1fr;}
+    .step + .step{border-left:none;border-top:1px solid var(--brass-pale);}
+    .about-grid{grid-template-columns:1fr;gap:36px;}
+    .about-photo{max-width:320px;}
+    .demo-content{padding:26px 22px 30px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation:none!important;transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="wordmark" href="#top">
+      <svg class="gear" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2l1 3 2.6-1 .8 2.7 2.8.3-.7 2.7 2.3 1.6-2 2 1.3 2.5-2.7.9.3 2.8-2.8-.4-1.1 2.6L12 20l-1.8 2.2-1.1-2.6-2.8.4.3-2.8-2.7-.9L5.2 13.8l-2-2 2.3-1.6-.7-2.7 2.8-.3.8-2.7L11 5z" stroke="#A97B2F" stroke-width="1.1"/>
+        <circle cx="12" cy="12" r="3.4" stroke="#A97B2F" stroke-width="1.1"/>
+      </svg>
+      Capitol <b>AI</b> Tutors
+    </a>
+    <a class="btn btn-brass" href="https://calendly.com/contact-youraitutor/1-1-in-home-session-ai-tutor">Book a Session</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-frame">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <span class="plaque">Est. Washington, D.C. · One-on-One Tutoring</span>
+      <h1>AI, Explained<br>to <span class="gold">Humans</span></h1>
+      <div class="rule" style="max-width:280px;margin-top:20px;">
+        <svg width="26" height="10" viewBox="0 0 26 10" fill="none" aria-hidden="true">
+          <circle cx="13" cy="5" r="3" stroke="#A97B2F" stroke-width="1"/>
+          <circle cx="13" cy="5" r="1" fill="#A97B2F"/>
+          <path d="M0 5h7M19 5h7" stroke="#A97B2F" stroke-width="1"/>
+        </svg>
+      </div>
+      <p class="hero-sub">Hands-on, personalized guidance for individuals and families who want to use AI confidently — built around your real life and real work, not someone else's tech demo. Wherever you are, we meet you there.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-brass" href="https://calendly.com/contact-youraitutor/1-1-in-home-session-ai-tutor">Book a Session</a>
+        <a class="btn btn-ghost" href="#demo">See the Difference</a>
+      </div>
+      <p class="hero-note">90 minutes · 1:1 · in your home or online</p>
+    </div>
+  </div>
+</header>
+
+<section class="ugh">
+  <div class="wrap">
+    <span class="plaque on-dark">The House Specialty</span>
+    <h2>Bring an <span class="gold">ugh problem</span>.<br>Leave with a superpower.</h2>
+    <p class="lede">Everyone has them — the tasks you keep avoiding because they're tedious, confusing, or just heavy. Those are exactly where AI shines, and exactly where we start.</p>
+    <div class="chips">
+      <span class="chip">the inbox you can't face</span>
+      <span class="chip">confusing medical bills</span>
+      <span class="chip">the garage that needs organizing</span>
+      <span class="chip">meal planning, again</span>
+      <span class="chip">that report you keep putting off</span>
+      <span class="chip">subscriptions you forgot about</span>
+      <span class="chip">planning the family trip</span>
+      <span class="chip gold">+ whatever yours is</span>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="demo">
+  <div class="wrap">
+    <div class="demo-head">
+      <span class="plaque">Exhibit A</span>
+      <h2 class="section">Most people use AI like a search engine.<br>That's why it feels underwhelming.</h2>
+      <p class="section-sub">Here's the moment that changes everything in a session — same tool, same question, wildly different result. Flip the switch.</p>
+    </div>
+    <div class="demo-card">
+      <div class="demo-grid">
+        <div class="gauge-side">
+          <svg width="220" height="150" viewBox="0 0 220 150" aria-hidden="true">
+            <path d="M25 112 A85 85 0 0 1 195 112" fill="none" stroke="#A97B2F" stroke-width="2"/>
+            <path d="M25 112 A85 85 0 0 1 195 112" fill="none" stroke="#D9BE85" stroke-width="10" stroke-opacity=".35"/>
+            <!-- ticks -->
+            <g stroke="#A97B2F" stroke-width="1.5">
+              <line x1="30" y1="108" x2="41" y2="103"/>
+              <line x1="52" y1="66" x2="61" y2="74"/>
+              <line x1="110" y1="27" x2="110" y2="39"/>
+              <line x1="168" y1="66" x2="159" y2="74"/>
+              <line x1="190" y1="108" x2="179" y2="103"/>
+            </g>
+            <text x="38" y="132" font-family="IBM Plex Mono" font-size="9" fill="#9C5B2B" letter-spacing="1">UGH</text>
+            <text x="158" y="132" font-family="IBM Plex Mono" font-size="9" fill="#9C5B2B" letter-spacing="1">WHOA</text>
+            <!-- needle -->
+            <g id="needle">
+              <line x1="110" y1="112" x2="110" y2="40" stroke="#132F2D" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="110" cy="112" r="7" fill="#C9962F" stroke="#8A6420" stroke-width="1.5"/>
+            </g>
+          </svg>
+          <p class="gauge-label">Usefulness<br>Gauge</p>
+        </div>
+        <div class="demo-content">
+          <div class="demo-toggle" role="tablist" aria-label="Prompt comparison">
+            <button id="tab-before" class="active" role="tab" aria-selected="true" aria-controls="panel-before" onclick="showPanel('before')">How most people ask</button>
+            <button id="tab-after" role="tab" aria-selected="false" aria-controls="panel-after" onclick="showPanel('after')">How we'll teach you</button>
+          </div>
+          <div class="demo-body show" id="panel-before" role="tabpanel" aria-labelledby="tab-before">
+            <p class="prompt-label">The Prompt</p>
+            <div class="prompt-box">"give me dinner ideas"</div>
+            <div class="result">
+              <p>"Here are some dinner ideas: 1. Spaghetti 2. Tacos 3. Stir-fry 4. Grilled chicken 5. Salad…"</p>
+            </div>
+            <p class="verdict meh">→ Generic. Forgettable. You could've Googled this.</p>
+          </div>
+          <div class="demo-body after" id="panel-after" role="tabpanel" aria-labelledby="tab-after">
+            <p class="prompt-label">The Prompt</p>
+            <div class="prompt-box">"I have chicken thighs, half a bag of spinach, and leftover rice. One kid won't eat anything spicy, and I have 25 minutes. Give me one dinner I can actually make tonight, with steps ordered so nothing sits cold."</div>
+            <div class="result">
+              <p>"Perfect — here's a 25-minute garlic-butter chicken and spinach rice bowl. Start the chicken first since it needs the longest… While it cooks, warm the rice… Add the spinach in the last 2 minutes so it stays bright… Mild for the kids; add chili crisp to just your bowl at the end."</p>
+            </div>
+            <p class="verdict yay">→ Specific. Usable. Made for your actual Tuesday.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="demo-footnote">The tool didn't change — the conversation did. Giving AI real context is a skill, and it's very learnable. That's what we do together, using <em>your</em> life, not canned examples.</p>
+  </div>
+</section>
+
+<section class="sessions">
+  <div class="wrap">
+    <span class="plaque">The Method</span>
+    <h2 class="section">How a Session Works</h2>
+    <p class="section-sub">No slides. No jargon. Just you, your actual to-do list, and 90 focused minutes.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-dial">I</div>
+        <h3>We Listen First</h3>
+        <p>You tell me what your days actually look like — work, family, the stuff you avoid. We find the tasks where AI can genuinely help you.</p>
+      </div>
+      <div class="step">
+        <div class="step-dial">II</div>
+        <h3>We Do It Together</h3>
+        <p>Hands-on, on your own devices. You'll solve a real problem live and feel the before-and-after difference yourself.</p>
+      </div>
+      <div class="step">
+        <div class="step-dial">III</div>
+        <h3>You Leave Equipped</h3>
+        <p>Working prompts, habits, and confidence you can use the next morning — plus a clear sense of what AI can and can't do.</p>
+      </div>
+    </div>
+    <div class="session-meta">
+      <span><b>Length</b> 90 minutes</span>
+      <span><b>Format</b> one-on-one · in-home or virtual</span>
+      <span><b>Experience needed</b> none at all</span>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <span class="plaque">Rates &amp; Reservations</span>
+    <h2 class="section">90-Minute Private Session</h2>
+    <p class="section-sub">One-on-one, entirely built around you. In your home or over Zoom.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Standard Individual Rate</h3>
+        <p class="price-tag">$750</p>
+        <p class="price-desc">Regular pricing for a private 90-minute session.</p>
+      </div>
+      <div class="price-card founding">
+        <span class="ribbon">Limited Time · Founding Offer</span>
+        <h3>Founding Individual Client Rate</h3>
+        <p class="price-tag"><span class="price-strike">$750</span>$249</p>
+        <p class="price-desc">The full 90-minute private session, at the founding client rate — available for a limited time only.</p>
+        <a class="btn btn-brass" href="https://calendly.com/contact-youraitutor/1-1-in-home-session-ai-tutor">Claim Founding Rate</a>
+      </div>
+    </div>
+    <div class="price-meta">
+      <span><b>In-person</b> DC Metro Area</span>
+      <span><b>Remote</b> via Zoom</span>
+    </div>
+    <p class="corporate">Corporate package options? Email <a href="mailto:contact@capitolaitutors.com">contact@capitolaitutors.com</a></p>
+    <div class="ethics-notice">
+      <span class="plaque">Ethics &amp; Eligibility</span>
+      <p>To avoid conflicts of interest, Capitol AI Tutors <strong>does not provide services to individuals or organizations with matters before the U.S. Food and Drug Administration.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-photo">
+        <p class="photo-fallback">"It feels like unlocking superpowers for people."</p>
+        <img src="hesha.jpg" alt="Hesha Duggirala" onerror="this.style.display='none'">
+      </div>
+      <div class="about-text">
+        <span class="plaque">Your Tutor</span>
+        <h2 class="section" style="margin-bottom:20px;">Hi, I'm Hesha.</h2>
+        <p>I've accidentally fallen into a role I didn't expect: teaching people AI literacy. It started with helping colleagues, and eventually evolved into a YouTube series called <em>AI for Nana</em>, so my dad (and other retired Indian dads) could understand what AI actually is and how to use it — without being intimidated.</p>
+        <p>Somewhere along the way, I realized how much I love doing this. I love sitting with someone, listening to what their real life looks like, and showing them how AI can make things easier, faster, or just more interesting. It feels like unlocking superpowers for people, and it's genuinely fun for me.</p>
+        <p>Looking forward to demystifying AI for you soon.</p>
+        <p class="signoff">— Hesha Duggirala</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <span class="plaque on-dark">Now Booking</span>
+    <h2>What's <span class="gold">your</span> ugh problem?</h2>
+    <p>Bring it to a session. Ninety minutes from now, it might be the reason you're hooked.</p>
+    <a class="btn btn-brass" href="https://calendly.com/contact-youraitutor/1-1-in-home-session-ai-tutor">Book a Session</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div>
+        <span class="foot-mark">Capitol AI Tutors</span><br>
+        Washington, D.C. area
+      </div>
+      <div>
+        <a href="mailto:contact@capitolaitutors.com">contact@capitolaitutors.com</a>
+      </div>
+    </div>
+    <p class="ethics">Ethics &amp; eligibility: to avoid conflicts of interest, Capitol AI Tutors does not provide services to individuals or organizations with matters before the U.S. Food and Drug Administration.</p>
+  </div>
+</footer>
+
+<script>
+// Make same-page links (like "See the Difference") scroll smoothly,
+// even in sandboxed previews where anchor navigation misbehaves.
+document.addEventListener('click', function(e){
+  const link = e.target.closest('a[href^="#"]');
+  if(!link) return;
+  const target = document.querySelector(link.getAttribute('href'));
+  if(target){
+    e.preventDefault();
+    target.scrollIntoView({behavior:'smooth'});
+  }
+});
+
+function showPanel(which){
+  const before = document.getElementById('panel-before');
+  const after = document.getElementById('panel-after');
+  const tabB = document.getElementById('tab-before');
+  const tabA = document.getElementById('tab-after');
+  const needle = document.getElementById('needle');
+  const isAfter = which === 'after';
+  before.classList.toggle('show', !isAfter);
+  after.classList.toggle('show', isAfter);
+  tabB.classList.toggle('active', !isAfter);
+  tabA.classList.toggle('active', isAfter);
+  tabB.setAttribute('aria-selected', String(!isAfter));
+  tabA.setAttribute('aria-selected', String(isAfter));
+  needle.style.transform = isAfter ? 'rotate(62deg)' : 'rotate(-62deg)';
+}
+</script>
+
+</body>
+</html>
